@@ -1,11 +1,18 @@
 """
 NLP utilities for qualitative analysis
 """
-from transformers import pipeline
 from typing import List, Dict, Any
 import logging
 from collections import Counter
 import re
+
+# Try to import transformers, but make it optional
+try:
+    from transformers import pipeline
+    TRANSFORMERS_AVAILABLE = True
+except ImportError:
+    TRANSFORMERS_AVAILABLE = False
+    pipeline = None
 
 logger = logging.getLogger(__name__)
 
@@ -14,16 +21,19 @@ class NLPAnalyzer:
     """NLP analyzer for qualitative comments"""
     
     def __init__(self):
-        try:
-            # Initialize sentiment analysis pipeline
-            self.sentiment_analyzer = pipeline(
-                "sentiment-analysis",
-                model="distilbert-base-uncased-finetuned-sst-2-english"
-            )
-            logger.info("Sentiment analyzer initialized")
-        except Exception as e:
-            logger.warning(f"Failed to initialize sentiment analyzer: {e}")
-            self.sentiment_analyzer = None
+        self.sentiment_analyzer = None
+        if TRANSFORMERS_AVAILABLE:
+            try:
+                # Initialize sentiment analysis pipeline
+                self.sentiment_analyzer = pipeline(
+                    "sentiment-analysis",
+                    model="distilbert-base-uncased-finetuned-sst-2-english"
+                )
+                logger.info("Sentiment analyzer initialized")
+            except Exception as e:
+                logger.warning(f"Failed to initialize sentiment analyzer: {e}")
+        else:
+            logger.warning("Transformers not available, using basic sentiment analysis")
     
     def analyze_sentiment(self, comments: List[str]) -> Dict[str, Any]:
         """
