@@ -29,14 +29,14 @@ class Settings(BaseSettings):
     
     # External APIs
     TWELVELABS_API_KEY: str
-    ELEVENLABS_API_KEY: str
-    OPENAI_API_KEY: str
+    ELEVENLABS_API_KEY: str = "dummy-key"
+    OPENAI_API_KEY: str = "dummy-key"
     
     # AWS
-    AWS_ACCESS_KEY_ID: str
-    AWS_SECRET_ACCESS_KEY: str
+    AWS_ACCESS_KEY_ID: str = "dummy"
+    AWS_SECRET_ACCESS_KEY: str = "dummy"
     AWS_REGION: str = "us-east-1"
-    AWS_S3_BUCKET: str
+    AWS_S3_BUCKET: str = "dummy-bucket"
     
     # Security
     JWT_SECRET_KEY: str
