@@ -33,7 +33,6 @@ async def create_experiment(
     results_csv: UploadFile = File(...),
     comments_csv: UploadFile = File(...),
     db: AsyncSession = Depends(get_db)
-    # current_user: dict = Depends(get_current_user)  # Temporarily disabled for demo
 ):
     """
     Create a new experiment with video and data files (authentication temporarily disabled)
@@ -56,7 +55,7 @@ async def create_experiment(
         experiment = await experiment_service.create_experiment(
             title=title,
             description=description,
-            user_id=current_user["user_id"]
+            user_id=UUID("00000000-0000-0000-0000-000000000000")  # Default user ID for demo
         )
         
         # Upload files
